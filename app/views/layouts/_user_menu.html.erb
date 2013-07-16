@@ -1,0 +1,57 @@
+<div class='dropdown' id='greeting'>
+  <a class='dropdown-toggle' data-toggle='dropdown' href="#">
+    <%= render :partial => 'layouts/inbox' %>
+    <%= @user.display_name %>
+    <b class="caret"></b>
+  </a>
+  <ul class='dropdown-menu' role='menu' aria-labelledby='dLabel'>
+    <li>
+      <%= link_to inbox_path(:display_name => @user.display_name) do %>
+        <%= t('message.inbox.my_inbox') %>
+        <span class='count-number'><%= number_with_delimiter(@user.new_messages.size) %></span>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to :controller => 'changeset', :action => 'list', :display_name => @user.display_name do %>
+        <%= t('user.view.my edits') %>
+        <span class='count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to :controller => 'notes', :action => 'mine', :display_name => @user.display_name do %>
+        <%= t('user.view.my notes') %>
+        <span class='count-number'><%= number_with_delimiter(@user.notes.size) %></span>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to :controller => 'trace', :action => 'mine' do %>
+        <%= t('user.view.my traces') %>
+        <span class='count-number'><%= number_with_delimiter(@user.traces.size) %></span>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name do %>
+        <%= t('user.view.my diary') %>
+        <span class='count-number'><%= number_with_delimiter(@user.diary_entries.size) %></span>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => @user.display_name %>
+    </li>
+    <li>
+      <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <%= link_to user_path(:display_name => @user.display_name) do %>
+        Friends and Nearby Users
+      <% end %>
+    </li>
+    <li>
+      <%= yield :greeting %>
+    </li>
+    <li>
+      <%= link_to t('layouts.logout'), logout_path(:session => request.session_options[:id], :referer => request.fullpath) %>
+    </li>
+  </ul>
+</div>
